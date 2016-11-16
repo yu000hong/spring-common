@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="suite1" verbose="1">
+    <test name="common">
+        <packages>
+            <package name="com.github.yu000hong.spring.common.common"/>
+        </packages>
+    </test>
+</suite>

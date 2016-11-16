@@ -1,0 +1,91 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath files('lib/gradle-trust-all.jar')
+    }
+}
+apply from: 'version.groovy'
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+group 'com.github.yu000hong'
+version '1.1.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceSets {
+    main {
+        java { srcDirs = [] }
+        groovy { srcDirs = ['src/main/java', 'src/main/groovy'] }
+    }
+    test {
+        java { srcDirs = [] }
+        groovy { srcDirs = ['src/test/java', 'src/test/groovy'] }
+    }
+}
+
+dependencies {
+
+    //qiniu
+    compile group: 'com.qiniu', name: 'qiniu-java-sdk', version: QINIU_VERSION
+    //pinyin4j
+    compile group: 'com.belerweb', name: 'pinyin4j', version: PINYIN4J_VERSION
+    //httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: HTTPCOMPONENTS_VERSION
+    //fluent-hc
+    compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: HTTPCOMPONENTS_VERSION
+
+    //mybatis
+    compile group: 'org.mybatis', name: 'mybatis', version: MYBATIS_VERSION
+
+    //jedis
+    compile group: 'redis.clients', name: 'jedis', version: JEDIS_VERSION
+
+    //servlet
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: SERVLET_VERSION
+
+    //groovy
+    compile group: 'org.codehaus.groovy', name: 'groovy-all', version: GROOVY_VERSION
+
+    //gson
+    compile group: 'com.google.code.gson', name: 'gson', version: GSON_VERSION
+
+    //spring-context
+    compile group: 'org.springframework', name: 'spring-context', version: SPRING_FRAMEWORK_VERSION
+
+    //spring data redis
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: SPRING_REDIS_VERSION
+
+    //commons-collections
+    compile 'commons-collections:commons-collections:3.2.1'
+
+    //ua.parser
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.10'
+
+    //dbunit
+    compile group: 'org.dbunit', name: 'dbunit', version: '2.5.0'
+
+    //testng
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.13.6'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId 'spring-common'
+            from components.java
+        }
+    }
+}
+
+
+test {
+    useTestNG()
+}
