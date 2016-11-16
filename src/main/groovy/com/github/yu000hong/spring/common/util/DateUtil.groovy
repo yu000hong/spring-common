@@ -15,7 +15,7 @@ class DateUtil {
     /**
      * 每个线程独占使用的Timestamp格式化对象
      */
-    public static final ThreadLocal<SimpleDateFormat> datetimeFormatter = new ThreadLocal<SimpleDateFormat>() {
+    public static final ThreadLocal<SimpleDateFormat> timeFormatter = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
             new SimpleDateFormat('yyyy-MM-dd HH:mm:ss')
@@ -47,7 +47,7 @@ class DateUtil {
      * @return
      */
     public static String format(Timestamp time) {
-        return datetimeFormatter.get().format(time)
+        return timeFormatter.get().format(time)
     }
 
     /**
@@ -67,7 +67,7 @@ class DateUtil {
      * @throws ParseException
      */
     public static Timestamp parseTime(String time) {
-        return new Timestamp(datetimeFormatter.get().parse(time).time)
+        return new Timestamp(timeFormatter.get().parse(time).time)
     }
 
 }
