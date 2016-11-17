@@ -18,6 +18,9 @@ sourceCompatibility = 1.7
 repositories {
     mavenCentral()
     mavenLocal()
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
 sourceSets {
@@ -74,6 +77,10 @@ dependencies {
 
     //testng
     testCompile group: 'org.testng', name: 'testng', version: '6.9.13.6'
+    //redis-mock-java
+    testCompile group: 'org.rarefiedredis.redis', name: 'redis-java', version: '0.0.5'
+    //spring-redis-mock
+    testCompile group: 'com.github.yu000hong', name: 'spring-redis-mock', version: '1.1.0-SNAPSHOT'
 }
 
 publishing {
