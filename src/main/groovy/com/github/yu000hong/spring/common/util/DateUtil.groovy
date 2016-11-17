@@ -4,6 +4,7 @@ import java.sql.Date
 import java.sql.Timestamp
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 /**
  * 只处理常见的两种日期格式:
@@ -68,6 +69,29 @@ class DateUtil {
      */
     public static Timestamp parseTime(String time) {
         return new Timestamp(timeFormatter.get().parse(time).time)
+    }
+
+    /**
+     * 把各种时间转成成秒单位
+     * @param time 时间
+     * @param unit 单位
+     * @return
+     */
+    public static long toSeconds(long time, TimeUnit unit) {
+        switch (unit) {
+            case TimeUnit.DAYS:
+                return time * 24 * 60 * 60
+            case TimeUnit.HOURS:
+                return time * 60 * 60
+            case TimeUnit.MINUTES:
+                return time * 60
+            case TimeUnit.SECONDS:
+                return time
+            case TimeUnit.MILLISECONDS:
+                return time / 1000
+            default:
+                throw new IllegalArgumentException("invalid time unit: $unit")
+        }
     }
 
 }
