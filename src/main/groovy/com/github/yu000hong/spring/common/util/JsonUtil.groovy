@@ -276,12 +276,25 @@ public class JsonUtil {
     /**
      * 字符串转换成Object
      * @param value Redis中获取的字符串值
+     * @param clz 类型
      * @return
      */
     public static <T> T toObject(String value, Class<T> clz) {
         if (value == null || value == NULL) return null
 
         return fromJson(value, clz)
+    }
+
+    /**
+     * 字符串转换成Object
+     * @param value Redis中获取的字符串值
+     * @param clz 类型
+     * @return
+     */
+    public static <T> T toObject(String value, Type type) {
+        if (value == null || value == NULL) return null
+
+        return fromJson(value, type)
     }
 
     /**

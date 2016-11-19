@@ -11,10 +11,19 @@ import java.util.concurrent.TimeUnit
 import static com.github.yu000hong.spring.common.util.DateUtil.toSeconds
 
 abstract class RedisUtil {
+    public static final long DEFAULT_EXPIRE_MINUTES = 5
+    public static final long DO_NOT_EXPIRE = -1
+
     protected RedisOperations<String, String> redisOps
+    protected int expireMinutes
 
     public RedisUtil(RedisOperations<String, String> redisOps) {
+        this(redisOps, DEFAULT_EXPIRE_MINUTES)
+    }
+
+    public RedisUtil(RedisOperations<String, String> redisOps, long expireMinutes) {
         this.redisOps = redisOps
+        this.expireMinutes = expireMinutes
     }
 
     /**
