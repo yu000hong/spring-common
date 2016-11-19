@@ -25,17 +25,13 @@ public class JsonUtil {
     private static final JsonSerializer<Date> DATE_JSON_SERIALIZER = new JsonSerializer<Date>() {
         @Override
         public JsonElement serialize(Date value, Type type, JsonSerializationContext context) {
-            return value == null ? null : new JsonPrimitive(DateUtil.dateFormatter.get().format(value))
+            return value == null ? null : new JsonPrimitive(value.getTime())
         }
     }
     private static final JsonDeserializer<Date> DATE_JSON_DESERIALIZER = new JsonDeserializer<Date>() {
         @Override
         public Date deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
-            try {
-                return json == null ? null : new Date(DateUtil.dateFormatter.get().parse(json.getAsString()).getTime())
-            } catch (ParseException ignored) {
-                throw new RuntimeException("invalid date format")
-            }
+            return json == null ? null : new Date(json.getAsLong())
         }
     }
     private static final JsonSerializer<Double> DOUBLE_JSON_SERIALIZER = new JsonSerializer<Double>() {
@@ -272,4 +268,69 @@ public class JsonUtil {
         }
         return (Map) value
     }
+
+    //region 类型转换
+
+    public static final String NULL = 'null'
+
+    /**
+     * 字符串转换成Object
+     * @param value Redis中获取的字符串值
+     * @return
+     */
+    public static <T> T toObject(String value, Class<T> clz) {
+        if (value == null || value == NULL) return null
+
+        return fromJson(value, clz)
+    }
+
+    /**
+     * 将字符串列表转换成对应的对象列表
+     * @param values 值列表
+     * @param clz 类型
+     * @return
+     */
+    public static <T> List<T> toList(List<String> values, Class<T> clz) {
+        if (values == null) {
+            return null
+        }
+        return values.collect { v ->
+            return toObject(v, clz)
+        }
+    }
+
+    /**
+     * 将字符串集合转换成对应的对象集合
+     * @param values 值列表
+     * @param clz 类型
+     * @return
+     */
+    public static <T> Set<T> toSet(Set<String> values, Class<T> clz) {
+        if (values == null) {
+            return null
+        }
+        return values.collect { v ->
+            return toObject(v, clz)
+        }
+    }
+
+    /**
+     * 将字符串映射转换成对应的对象映射
+     * @param map
+     * @param clz
+     * @return
+     */
+    public static <T> Map<String, T> toMap(Map<String, String> map, Class<T> clz) {
+        if (map == null) {
+            return null
+        }
+        def key2obj = [:] as Map<String, T>
+        map.each { k, v ->
+            key2obj[k] = toObject(v, clz)
+        }
+        return key2obj
+    }
+
+    //endregion
+
 }
