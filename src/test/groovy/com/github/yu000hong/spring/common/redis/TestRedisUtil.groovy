@@ -77,13 +77,10 @@ class TestRedisUtil {
         def redis = connectionFactory.getRedisMock()
         def delta = 3//时间误差在3秒内
         def seconds = 300
-        redis.set(keys[0], '1')
-        redis.expire(keys[0], seconds)
-        redis.set(keys[1], '1')
-        redis.expire(keys[1], seconds)
+        redis.set(keys[0], '1', 'ex', "$seconds")
+        redis.set(keys[1], '1', 'ex', "$seconds")
         def ttl1 = redis.ttl(keys[0])
         def ttl2 = redis.ttl(keys[1])
-        println(ttl1)
         Assert.assertTrue(ttl1 <= seconds)
         Assert.assertTrue(ttl1 >= seconds - delta)
         Assert.assertTrue(ttl2 <= seconds)
