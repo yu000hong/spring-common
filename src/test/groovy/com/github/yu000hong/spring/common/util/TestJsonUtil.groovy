@@ -1,5 +1,6 @@
 package com.github.yu000hong.spring.common.util
 
+import com.google.gson.JsonSyntaxException
 import org.testng.Assert
 import org.testng.annotations.Test
 
@@ -11,17 +12,53 @@ class TestJsonUtil {
     @Test
     public void testToJson() {
         def i = 3
-        def d = 3.141500
+        def d = 3.141500D
         def b = false
+        def str = 'hello world'
         def now = System.currentTimeMillis()
         def time = new Timestamp(now)
         def date = new Date(now)
+        def map = [name: 'yh']
         Assert.assertEquals(JsonUtil.toJson(i), '3')
-        Assert.assertEquals(JsonUtil.toJson(d), '3.141500')
+        Assert.assertEquals(JsonUtil.toJson(d), '3.1415')
         Assert.assertEquals(JsonUtil.toJson(b), 'false')
+        Assert.assertEquals(JsonUtil.toJson(str), '"hello world"')
         Assert.assertEquals(JsonUtil.toJson(time), String.valueOf(now))
         Assert.assertEquals(JsonUtil.toJson(date), String.valueOf(now))
+        Assert.assertEquals(JsonUtil.toJson(map), '{"name":"yh"}')
         Assert.assertEquals(JsonUtil.toJson(null), 'null')
+    }
+
+    @Test
+    public void testFromJson() {
+        def i = 3
+        def d = 3.141500D
+        def b = false
+        def str = 'hello world'
+        def now = System.currentTimeMillis()
+        def time = new Timestamp(now)
+        def date = new Date(now)
+        def map = [name: 'yh']
+        Assert.assertEquals(JsonUtil.fromJson('3', Integer), i)
+        Assert.assertEquals(JsonUtil.fromJson('3.141500', Double), d)
+        Assert.assertEquals(JsonUtil.fromJson('false', Boolean), b)
+        Assert.assertEquals(JsonUtil.fromJson('"hello world"', String), str)
+        Assert.assertEquals(JsonUtil.fromJson(String.valueOf(now), Timestamp), time)
+        Assert.assertEquals(JsonUtil.fromJson(String.valueOf(now), Date), date)
+        Assert.assertEquals(JsonUtil.fromJson('{"name":"yh"}', Map), map)
+        Assert.assertEquals(JsonUtil.fromJson('null', String), null)
+        Assert.assertEquals(JsonUtil.fromJson('"null"', String), 'null')
+    }
+
+    @Test(expectedExceptions = JsonSyntaxException)
+    public void testFromJsonThrowException() {
+        Assert.assertEquals(JsonUtil.fromJson('null', String), null)
+        Assert.assertEquals(JsonUtil.fromJson('"null"', String), 'null')
+        Assert.assertEquals(JsonUtil.fromJson('hello', String), 'hello')
+        Assert.assertEquals(JsonUtil.fromJson('"hello"', String), 'hello')
+        Assert.assertEquals(JsonUtil.fromJson('"hello world"', String), 'hello world')
+        //throw exception
+        JsonUtil.fromJson('hello world', String)
     }
 
     @Test

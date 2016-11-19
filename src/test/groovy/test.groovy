@@ -16,3 +16,8 @@ println(JsonUtil.fromJson(JsonUtil.toJson(b), Boolean))
 
 println(d.getClass())
 println(i.getClass())
+println(JsonUtil.fromJson('hello world', String))
+//JsonUtil.fromJson('hello world', String)
+println(JsonUtil.fromJson('"hello"', String))
+println(JsonUtil.fromJson('null', String))
+println(JsonUtil.fromJson('"null"', String))
