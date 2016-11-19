@@ -29,13 +29,14 @@ abstract class RedisUtil {
     /**
      * 设置缓存过期时间
      * @param keys 键列表
-     * @param minutes 分钟
+     * @param timeout 过期时间
+     * @param unit 时间单位
      */
-    public void expire(Collection<String> keys, long time, TimeUnit unit) {
+    public void expire(Collection<String> keys, long timeout, TimeUnit unit) {
         if (!keys) return
 
         def keySerializer = redisOps.keySerializer as RedisSerializer<String>
-        def seconds = toSeconds(time, unit)
+        def seconds = toSeconds(timeout, unit)
         redisOps.executePipelined([doInRedis: { RedisConnection conn ->
             keys.each { k ->
                 conn.expire(keySerializer.serialize(k), seconds)
@@ -47,7 +48,7 @@ abstract class RedisUtil {
     /**
      * 设置缓存在指定时刻失效
      * @param keys 键列表
-     * @param timestamp 毫秒
+     * @param timestamp UNIX时间戳(单位毫秒)
      */
     public void expireAt(Collection<String> keys, long timestamp) {
         if (!keys) return
@@ -87,7 +88,6 @@ abstract class RedisUtil {
 
     /**
      * 从缓存中删除
-     * @param redis 缓存枚举
      * @param key 键列表
      */
     public boolean exists(String key) {

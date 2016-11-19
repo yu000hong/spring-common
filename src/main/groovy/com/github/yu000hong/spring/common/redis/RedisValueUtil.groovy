@@ -17,6 +17,7 @@ import static com.github.yu000hong.spring.common.util.JsonUtil.*
  * Redis缓存处理
  * －只针对Redis普通的String类型
  * －只处理ValueOperations类型
+ * －超时时间为-1时, 表示永久缓存永不超时
  */
 class RedisValueUtil extends RedisUtil {
     private ValueOperations<String, String> valueOps
@@ -168,7 +169,7 @@ class RedisValueUtil extends RedisUtil {
      * 从缓存里获取特定的数据类型列表(一一对应)
      * @param ids ID列表
      * @param formatter Redis键的格式化字符串
-     * @param clz Redis键的格式化字符串
+     * @param clz 特定类型
      * @param key ID在对象中的字段名
      * @param timeout 超时时间
      * @param unit 时间单位
@@ -211,7 +212,7 @@ class RedisValueUtil extends RedisUtil {
      * 从缓存里获取特定的数据类型列表(一一对应)
      * @param ids ID列表
      * @param formatter Redis键的格式化字符串
-     * @param clz Redis键的格式化字符串
+     * @param clz 特定类型
      * @param key ID在对象中的字段名
      * @param closure 以ID列表为参数的闭包
      * @return
@@ -339,10 +340,10 @@ class RedisValueUtil extends RedisUtil {
     //region /* -------------- multiSet -------------- */
 
     /**
-     * 添加object到缓存
+     * 批量设置
      * @param map 要设置的数据
-     * @param timeout 过期时间量，如果值为Long.MAX_VALUE，表示不设置过期时间
-     * @param unit 过期时间单位
+     * @param timeout 超时时间
+     * @param unit 时间单位
      */
     public void multiSet(Map<String, Object> map, long timeout, TimeUnit unit) {
         def keySerializer = redisOps.keySerializer as RedisSerializer<String>
@@ -366,10 +367,8 @@ class RedisValueUtil extends RedisUtil {
     }
 
     /**
-     * 添加object到缓存
-     * @param map
-     * @param timeout 过期时间量
-     * @param unit 过期时间单位
+     * 批量设置(默认超时时间)
+     * @param map 键值对映射
      */
     public void multiSet(Map<String, Object> map) {
         multiSet(map, expireMinutes, TimeUnit.MINUTES)
