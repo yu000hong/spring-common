@@ -6,6 +6,7 @@ import org.testng.Assert
 import static com.github.yu000hong.spring.common.redis.RedisUtil.DO_NOT_EXPIRE
 
 class TestRedisBase {
+    public static final long EXPIRE_MINUTES = 10
     public static final long DELTA_SECONDS = 3
 
     public static void assertExpiration(RedisMock redis, String key, long seconds, long delta) {

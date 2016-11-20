@@ -13,6 +13,7 @@ import static com.github.yu000hong.spring.common.util.DateUtil.toSeconds
 abstract class RedisUtil {
     public static final long DEFAULT_EXPIRE_MINUTES = 5
     public static final long DO_NOT_EXPIRE = -1
+    public static final long DO_NOT_EXIST = -2
 
     protected RedisOperations<String, String> redisOps
     protected int expireMinutes
@@ -88,7 +89,7 @@ abstract class RedisUtil {
 
     /**
      * 从缓存中删除
-     * @param key 键列表
+     * @param key 键
      */
     public boolean exists(String key) {
         def keySerializer = redisOps.keySerializer as RedisSerializer<String>
@@ -96,6 +97,21 @@ abstract class RedisUtil {
             @Override
             Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.exists(keySerializer.serialize(key))
+            }
+        })
+    }
+
+    /**
+     * 返回缓存TTL
+     * @param key 键
+     * @return
+     */
+    public long ttl(String key) {
+        def keySerializer = redisOps.keySerializer as RedisSerializer<String>
+        return redisOps.execute(new RedisCallback<Long>() {
+            @Override
+            Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.ttl(keySerializer.serialize(key))
             }
         })
     }

@@ -5,17 +5,19 @@ import org.springframework.data.redis.core.RedisOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.testng.Assert
-import org.testng.annotations.BeforeTest
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import java.util.concurrent.TimeUnit
+
+import static com.github.yu000hong.spring.common.redis.TestRedisBase.DELTA_SECONDS
 
 class TestRedisUtil {
     private RedisMockConnectionFactory connectionFactory
     private RedisTemplate<String, String> redisTemplate
 
-    @BeforeTest
-    private void beforeTest() {
+    @BeforeMethod
+    private void beforeMethod() {
         connectionFactory = new RedisMockConnectionFactory()
         redisTemplate = new RedisTemplate<>()
         redisTemplate.setConnectionFactory(connectionFactory)
@@ -116,6 +118,20 @@ class TestRedisUtil {
         Assert.assertTrue(stub.exists(key))
         redis.del(key)
         Assert.assertFalse(stub.exists(key))
+    }
+
+    @Test
+    public void testTtl() {
+        def stub = new Stub(redisTemplate)
+        def key = 'testKey'
+        def redis = connectionFactory.getRedisMock()
+        redis.set(key, '1')
+        Assert.assertEquals(stub.ttl(key), -1L)
+        redis.del(key)
+        Assert.assertEquals(stub.ttl(key), -2L)
+        redis.set(key, '1', 'ex', '60')
+        Assert.assertTrue(stub.ttl(key) <= 60)
+        Assert.assertTrue(stub.ttl(key) >= 60 - DELTA_SECONDS)
     }
 
 
