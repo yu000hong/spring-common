@@ -1,7 +1,7 @@
 package com.github.yu000hong.spring.common.redis
 
+import com.github.yu000hong.spring.redis.mock.RedisMockConnectionFactory
 import com.google.gson.reflect.TypeToken
-import com.yu000hong.spring.redis.mock.RedisMockConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.testng.annotations.BeforeMethod
@@ -14,8 +14,6 @@ import static com.github.yu000hong.spring.common.redis.TestRedisBase.*
 import static org.testng.Assert.*
 
 class TestRedisValueUtil {
-    private static final long EXPIRE_MINUTES = 10
-
     private RedisMockConnectionFactory connectionFactory
     private RedisTemplate<String, String> redisTemplate
     private RedisValueUtil redisValueUtil

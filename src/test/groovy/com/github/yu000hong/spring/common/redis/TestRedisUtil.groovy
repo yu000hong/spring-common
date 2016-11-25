@@ -1,6 +1,6 @@
 package com.github.yu000hong.spring.common.redis
 
-import com.yu000hong.spring.redis.mock.RedisMockConnectionFactory
+import com.github.yu000hong.spring.redis.mock.RedisMockConnectionFactory
 import org.springframework.data.redis.core.RedisOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.StringRedisSerializer

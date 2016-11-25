@@ -15,9 +15,21 @@ class TestVersion {
         Assert.assertTrue(Version.from('1.10.1') > '1.9.0')
     }
 
+    //region 抛异常和不抛异常的运行时间差距很大
+
+    //testNothing - 2ms
+    //testExceptionWhenFromInvalidVersion -232ms
+
     @Test(expectedExceptions = IllegalArgumentException)
     public void testExceptionWhenFromInvalidVersion() {
         Version.from('1.1.20.1')
     }
+
+    @Test
+    public void testNothing() {
+        Version.from('1.1.20')
+    }
+
+    //endregion
 
 }

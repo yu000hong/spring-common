@@ -16,7 +16,7 @@ abstract class RedisUtil {
     public static final long DO_NOT_EXIST = -2
 
     protected RedisOperations<String, String> redisOps
-    protected int expireMinutes
+    protected long expireMinutes
 
     public RedisUtil(RedisOperations<String, String> redisOps) {
         this(redisOps, DEFAULT_EXPIRE_MINUTES)
@@ -24,6 +24,10 @@ abstract class RedisUtil {
 
     public RedisUtil(RedisOperations<String, String> redisOps, long expireMinutes) {
         this.redisOps = redisOps
+        this.expireMinutes = expireMinutes
+    }
+
+    public void setExpireMinutes(long expireMinutes) {
         this.expireMinutes = expireMinutes
     }
 
