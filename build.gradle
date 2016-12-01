@@ -11,7 +11,6 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
 group 'com.github.yu000hong'
-version '1.1.0-SNAPSHOT'
 
 sourceCompatibility = 1.7
 
@@ -81,6 +80,14 @@ dependencies {
     testCompile group: 'org.rarefiedredis.redis', name: 'redis-java', version: '0.0.17'
     //spring-redis-mock
     testCompile group: 'com.github.yu000hong', name: 'spring-redis-mock', version: '1.1.0-SNAPSHOT'
+    //h2 database
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.193'
+    //spring-jdbc
+    testCompile group: 'org.springframework', name: 'spring-jdbc', version: SPRING_FRAMEWORK_VERSION
+    //spring-test
+    testCompile group: 'org.springframework', name: 'spring-test', version: SPRING_FRAMEWORK_VERSION
+    //commons-dbcp
+    testCompile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
 }
 
 publishing {
