@@ -1,7 +1,7 @@
 package com.github.yu000hong.spring.common.response
 
 
-enum ErrorCode {
+enum CommonCode implements IResponseCode {
     ERROR(-1, 'error'),
     SUCCESS(0, 'success'),
     FAIL(1, 'fail'),
@@ -21,7 +21,7 @@ enum ErrorCode {
     final int code
     final String msg
 
-    private ErrorCode(int code, String msg) {
+    private CommonCode(int code, String msg) {
         this.code = code
         this.msg = msg
     }
