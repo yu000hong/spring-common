@@ -17,7 +17,7 @@ class Environment {
      * @return
      */
     boolean isDev() {
-        type == Type.DEV
+        return type == Type.DEV
     }
 
     /**
@@ -25,7 +25,7 @@ class Environment {
      * @return
      */
     boolean isTest() {
-        type == Type.TEST
+        return type == Type.TEST
     }
 
     /**
@@ -33,7 +33,7 @@ class Environment {
      * @return
      */
     boolean isProd() {
-        type == Type.PROD
+        return type == Type.PROD
     }
 
     public static enum Type {
@@ -50,7 +50,7 @@ class Environment {
      * @return
      */
     String getString(String key) {
-        props.getProperty(key)
+        return props.getProperty(key)
     }
 
     /**
@@ -60,8 +60,7 @@ class Environment {
      * @return
      */
     String getString(String key, String defaultValue) {
-        def value = props.getProperty(key)
-        value == null ? defaultValue : value
+        return props.getProperty(key) ?: defaultValue
     }
 
     /**
@@ -71,7 +70,7 @@ class Environment {
      */
     Integer getInt(String key) {
         def value = props.getProperty(key)
-        value == null ? null : value.toInteger()
+        return value == null ? null : value.toInteger()
     }
 
     /**
@@ -82,7 +81,7 @@ class Environment {
      */
     Integer getInt(String key, int defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : value.toInteger()
+        return value == null ? defaultValue : value.toInteger()
     }
 
     /**
@@ -92,7 +91,7 @@ class Environment {
      */
     Long getLong(String key) {
         def value = props.getProperty(key)
-        value == null ? null : value.toLong()
+        return value == null ? null : value.toLong()
     }
 
     /**
@@ -103,7 +102,7 @@ class Environment {
      */
     Long getLong(String key, long defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : value.toLong()
+        return value == null ? defaultValue : value.toLong()
     }
 
     /**
@@ -113,7 +112,18 @@ class Environment {
      */
     Boolean getBoolean(String key) {
         def value = props.getProperty(key)
-        value == null ? null : value.toBoolean()
+        if (value == null) {
+            return null
+        } else {
+            switch (value.toLowerCase()) {
+                case 'true':
+                    return true
+                case 'false':
+                    return false
+                default:
+                    throw new IllegalArgumentException()
+            }
+        }
     }
 
     /**
@@ -124,7 +134,18 @@ class Environment {
      */
     Boolean getBoolean(String key, boolean defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : value.toBoolean()
+        if (value == null) {
+            return defaultValue
+        } else {
+            switch (value.toLowerCase()) {
+                case 'true':
+                    return true
+                case 'false':
+                    return false
+                default:
+                    throw new IllegalArgumentException()
+            }
+        }
     }
 
     /**
@@ -134,7 +155,7 @@ class Environment {
      */
     Double getDouble(String key) {
         def value = props.getProperty(key)
-        value == null ? null : value.toDouble()
+        return value == null ? null : value.toDouble()
     }
 
     /**
@@ -145,7 +166,7 @@ class Environment {
      */
     Double getDouble(String key, double defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : value.toDouble()
+        return value == null ? defaultValue : value.toDouble()
     }
 
     /**
@@ -155,7 +176,7 @@ class Environment {
      */
     Float getFloat(String key) {
         def value = props.getProperty(key)
-        value == null ? null : value.toFloat()
+        return value == null ? null : value.toFloat()
     }
 
     /**
@@ -166,7 +187,7 @@ class Environment {
      */
     Float getFloat(String key, float defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : value.toFloat()
+        return value == null ? defaultValue : value.toFloat()
     }
 
     /**
@@ -176,7 +197,7 @@ class Environment {
      */
     Timestamp getTimestamp(String key) {
         def value = props.getProperty(key)
-        value == null ? null : DateUtil.parseTime(value)
+        return value == null ? null : DateUtil.parseTime(value)
     }
 
     /**
@@ -187,7 +208,7 @@ class Environment {
      */
     Timestamp getTimestamp(String key, Timestamp defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : DateUtil.parseTime(value)
+        return value == null ? defaultValue : DateUtil.parseTime(value)
     }
 
     /**
@@ -197,7 +218,7 @@ class Environment {
      */
     java.sql.Date getDate(String key) {
         def value = props.getProperty(key)
-        value == null ? null : DateUtil.parseDate(value)
+        return value == null ? null : DateUtil.parseDate(value)
     }
 
     /**
@@ -208,7 +229,7 @@ class Environment {
      */
     java.sql.Date getDate(String key, java.sql.Date defaultValue) {
         def value = props.getProperty(key)
-        value == null ? defaultValue : DateUtil.parseDate(value)
+        return value == null ? defaultValue : DateUtil.parseDate(value)
     }
 
 }
