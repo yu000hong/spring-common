@@ -62,20 +62,6 @@ class StringUtil {
     }
 
     /**
-     * 截取最大max长度的字符串
-     * @param text
-     * @param max
-     * @return
-     */
-    public static String maxlen(String text, int max) {
-        if (!text || text.length() <= max) {
-            return text
-        } else {
-            return text.substring(0, max)
-        }
-    }
-
-    /**
      * 将字符串中的中文转化为拼音,其他字符不变
      */
     public static String getPingYin(String inputString) {
