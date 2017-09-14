@@ -1,14 +1,16 @@
 package com.github.yu000hong.spring.common.util
 
-import com.github.yu000hong.spring.common.common.Environment
-import org.springframework.beans.factory.annotation.Autowired
+import com.github.yu000hong.spring.common.common.Env
 
 /**
  * 用于调试的辅助工具
  */
 class DebugUtil {
-    @Autowired(required = false)
-    private Environment env
+    private final Env env
+
+    public DebugUtil(Env env) {
+        this.env = env
+    }
 
     /**
      * 打印调试日志
@@ -17,7 +19,7 @@ class DebugUtil {
      * @param message
      */
     void log(String message) {
-        if (env && !env.isProd()) {
+        if (env != Env.PROD) {
             println(message)
         }
     }
@@ -29,7 +31,7 @@ class DebugUtil {
      * @param throwable
      */
     void error(Throwable throwable) {
-        if (env && !env.isProd()) {
+        if (env != Env.PROD) {
             throwable.printStackTrace()
         }
     }
@@ -42,7 +44,7 @@ class DebugUtil {
      * @param message
      */
     void error(Throwable throwable, String message) {
-        if (env && !env.isProd()) {
+        if (env != Env.PROD) {
             println(message)
             throwable.printStackTrace()
         }
@@ -55,7 +57,7 @@ class DebugUtil {
      * @param closure
      */
     void execute(Closure closure) {
-        if (env && !env.isProd()) {
+        if (env != Env.PROD) {
             closure.call()
         }
     }

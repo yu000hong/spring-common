@@ -74,6 +74,9 @@ dependencies {
     //dbunit
     compile group: 'org.dbunit', name: 'dbunit', version: '2.5.0'
 
+    //thrift
+    compile group: 'org.apache.thrift', name: 'libthrift', version: THRIFT_VERSION
+
     //testng
     testCompile group: 'org.testng', name: 'testng', version: '6.9.13.6'
     //redis-mock-java
